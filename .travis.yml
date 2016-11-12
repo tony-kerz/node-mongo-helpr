@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+- '6'
+before_deploy:
+- echo 'before-deploy:'
+- npm run build
+- echo src
+- ls -lR src
+- echo dist
+- ls -lR dist
+deploy:
+  provider: npm
+  email: anthony.kerz@gmail.com
+  api_key:
+    secure: bGft4vZu7T5zzooTFRwwsNC6o8eIyXNb0kguteKZvU8COPNBgUG3oJMnftaaiEpOeAiZQb6kMBtzA1Utn7bvEOXiPpkj0tAFe0FHTD4pw+F+VgFKEd2BNPcvVvNGxy0mXmiy3kiCluO8B+xE/Vv3aaR5+M6e0OE35p6Ne6soLUSFG3VJMltEGaU+7I066eOjUddy1F3rkIeQwwjjfCDxFryItGVtsQ7iVUXWHisHBe3P8O4nKLXCXFUqv7r6pVt+qVy3AkfPYRzQvjzLuZem0vgqfS+JxIksHPxlB+Gb3cCE8KCRm+OqQUwk0siXBC62DAE3KhhTJn7nh8dmptQvj3MOP8TXPIfSd6mFErnfM8KGEjxM+y7vhO8AU+s6lRM0MXWKKGRJkxx9/1bizn0gjc3+hk9+7xlvCNslt8zfTruCMWqVuz9EiEbMBFFOwu8DqB0Mu8+v5a/j+T7C/F5sSvpQx3eOO5nhJOKOYOqhsjLoaj8DQ2wExEAkTRK9st83UIQU35445FfXSvXa2Medr8bLEy9kasPY6RRNtZVeJxbBwEsbJeTb5uZZaToS11E0cBgJzbhhX4xN8S7HriDHzcnmoo3oCQ1q5iVBV7+gmAYcrrUpS5mpcsVif5gQtweUdx1lJLP7lI913L9W0hBFsKfsIA0xv/eXUXbD8b2EziQ=
+  skip_cleanup: true
+  on:
+    branch: master
+    condition: "-z $TRAVIS_TAG"
