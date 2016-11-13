@@ -1,0 +1,43 @@
+{
+  "name": "mongo-helpr",
+  "version": "0.1.1",
+  "description": "",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tony-kerz/node-mongo-helpr.git"
+  },
+  "scripts": {
+    "ava": "cross-env NODE_ENV=auto NODE_CONFIG_DIR=$(pwd)/config ava test/ava",
+    "ava-debug": "cross-env NODE_ENV=auto NODE_CONFIG_DIR=$(pwd)/config DEBUG=test:*,app:* ava test/ava",
+    "test": "npm run ava",
+    "prebuild": "npm run test",
+    "build": "babel ./src -d ./dist",
+    "eslint": "eslint ./src ./test"
+  },
+  "author": "tony kerz",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^1.24.0",
+    "debug": "^2.3.2",
+    "helpr": "^0.1.1",
+    "lodash": "^4.16.6",
+    "mongodb": "^2.2.11"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.18.0",
+    "babel-eslint": "^7.0.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "cross-env": "^3.1.3",
+    "eslint": "^3.9.1"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register",
+      "babel-polyfill"
+    ]
+  }
+}
