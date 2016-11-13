@@ -1,12 +1,13 @@
 # node-mongo-helpr
 
-miscellaneous test helper functions
+miscellaneous mongo helper functions
 
-> see tests for examples
+> see [tests](test) for examples
 
 ## usage
 
-- `npm install mongo-helpr`
+1. `npm install mongo-helpr`
+1. `import {...} from 'mongo-helpr'`
 
 ## development
 
