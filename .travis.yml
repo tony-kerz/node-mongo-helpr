@@ -1,22 +1,22 @@
 language: node_js
 node_js:
-  - '6'
+- '6'
 services:
-  - mongodb
+- mongodb
 before_script:
-  - sleep 15
+- sleep 15
 before_deploy:
-  - echo 'before-deploy:'
-  - npm run build
-  - echo src
-  - ls -lR src
-  - echo dist
-  - ls -lR dist
+- echo 'before-deploy:'
+- npm run build
+- echo src
+- ls -lR src
+- echo dist
+- ls -lR dist
 deploy:
   provider: npm
   email: anthony.kerz@gmail.com
   api_key:
-    secure: bGft4vZu7T5zzooTFRwwsNC6o8eIyXNb0kguteKZvU8COPNBgUG3oJMnftaaiEpOeAiZQb6kMBtzA1Utn7bvEOXiPpkj0tAFe0FHTD4pw+F+VgFKEd2BNPcvVvNGxy0mXmiy3kiCluO8B+xE/Vv3aaR5+M6e0OE35p6Ne6soLUSFG3VJMltEGaU+7I066eOjUddy1F3rkIeQwwjjfCDxFryItGVtsQ7iVUXWHisHBe3P8O4nKLXCXFUqv7r6pVt+qVy3AkfPYRzQvjzLuZem0vgqfS+JxIksHPxlB+Gb3cCE8KCRm+OqQUwk0siXBC62DAE3KhhTJn7nh8dmptQvj3MOP8TXPIfSd6mFErnfM8KGEjxM+y7vhO8AU+s6lRM0MXWKKGRJkxx9/1bizn0gjc3+hk9+7xlvCNslt8zfTruCMWqVuz9EiEbMBFFOwu8DqB0Mu8+v5a/j+T7C/F5sSvpQx3eOO5nhJOKOYOqhsjLoaj8DQ2wExEAkTRK9st83UIQU35445FfXSvXa2Medr8bLEy9kasPY6RRNtZVeJxbBwEsbJeTb5uZZaToS11E0cBgJzbhhX4xN8S7HriDHzcnmoo3oCQ1q5iVBV7+gmAYcrrUpS5mpcsVif5gQtweUdx1lJLP7lI913L9W0hBFsKfsIA0xv/eXUXbD8b2EziQ=
+    secure: Z1J0cFvBiIweezIaZsfIEt+5S/tVzdQPy9cxvGRL9b2QoI6fSlzNG3n9uemQvNXItW48en+1C7cp4F1jF7fL47CGr/KnJBoEZ4JJ2tr3Sznhh2BO4yvo10Ocixz/PXgNhQ6uzQt6iL+N+9cHMZIQNrDu2zehgMokGneJwuP6cQbYfwFJ47zKTy/hf1lHwKzoYIDQm9aMI/IBBI69nIdGKdXVzPLVBQf5eaRWP9fu45PsePpPifuk2WCGUVcYgJDQDkANyXQHEolAhQ3OWYBHcznAWb3VEiBgRiJixzUIkNLtUbo3pspmqrD5vFTTjkAbxk9Y/fhvZ7hq+eOQAdWt0pCY66e3AHaFweljuWGReFtSMvXlrFxCFjsXPGlyxHJqMowiv8JC3h8faTwGHo2JzmFpCfJ3l4HFeENNFpN/Vx5zqujG2l4kMJ89GcnDtRkFHdFo++3SJuzVIKTwmGc5aSrLb//JqSmoKdFsrv1ytPNomEOlvppSS09kRFWZF7v7ZADHAlpaFz+d66xpPwPGyLUw3iX3l96PlKYGeld1Hss2LCrriZ9azflw80H33VZD6CbZl/h0njxrXPh2cG7v4qyt6rESvJ69GdkjnwkC9YoMq9oylt4HmqHk0GtpD2AiZwdOX5O+XRY6g0AmdORMp4eCWyuWtTOp9WwynavzwjU=
   skip_cleanup: true
   on:
     branch: master
