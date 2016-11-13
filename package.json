@@ -1,6 +1,6 @@
 {
   "name": "mongo-helpr",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "",
   "main": "dist/index.js",
   "repository": {
@@ -8,8 +8,7 @@
     "url": "https://github.com/tony-kerz/node-mongo-helpr.git"
   },
   "scripts": {
-    "ava": "cross-env NODE_ENV=auto NODE_CONFIG_DIR=$(pwd)/config ava test/ava",
-    "ava-debug": "cross-env NODE_ENV=auto NODE_CONFIG_DIR=$(pwd)/config DEBUG=test:*,app:* ava test/ava",
+    "ava": "cross-env NODE_ENV=auto NODE_CONFIG_DIR=$(pwd)/config DEBUG=test:*,app:* ava test/ava",
     "test": "npm run ava",
     "prebuild": "npm run test",
     "build": "babel ./src -d ./dist",

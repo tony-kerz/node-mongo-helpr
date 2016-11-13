@@ -26,7 +26,6 @@ test('parseParam: string', async (t)=>{
 })
 
 test('parseParam: regex', async (t)=>{
-  dbg('parse-param=%o', parseParam('/foo'))
   t.deepEqual(parseParam('/foo'), {$regex: 'foo', $options: ''})
 })
 
@@ -56,11 +55,11 @@ test('getNextSequence', async (t)=>{
   const db = await getDb()
   t.truthy(db)
   try {
-    const result = await db.dropCollection(SEQUENCES_NAME)//.drop()
-    dbg('get-next-sequence: result=%o', result)
+    const result = await db.dropCollection(SEQUENCES_NAME)
+    t.truthy(result)
   } catch (error) {
-    t.is(error.code, 26) // collection doesn't exist...
-    //dbg('get-next-sequence: error=%o', error)
+    dbg('get-next-sequence: message=%o, (assuming allowable)', error.message)
+    error.code && t.is(error.code, 26) // collection doesn't exist code
   }
   t.is(await getNextSequence('stuff', {db}), 1)
   t.is(await getNextSequence('stuff', {db}), 2)
