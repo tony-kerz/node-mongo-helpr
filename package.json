@@ -19,7 +19,7 @@
   "dependencies": {
     "config": "^1.24.0",
     "debug": "^2.3.2",
-    "helpr": "^0.1.1",
+    "helpr": "^0.1.5",
     "lodash": "^4.16.6",
     "mongodb": "^2.2.11"
   },
