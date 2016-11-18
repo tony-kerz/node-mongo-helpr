@@ -9,8 +9,9 @@
   },
   "scripts": {
     "ava": "cross-env DEBUG=test:*,app:* ava -s test/ava",
+    "pretest": "npm run eslint",
     "test": "npm run ava",
-    "prebuild": "npm run eslint && npm run test",
+    "prebuild": "npm run test",
     "build": "babel ./src -d ./dist",
     "eslint": "eslint ./src ./test"
   },
