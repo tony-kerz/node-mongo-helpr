@@ -1,13 +1,13 @@
 import test from 'ava'
 import debug from 'debug'
 import mongodb from 'mongodb'
+import {assertAutomatedTest} from 'mongo-test-helpr'
 import {
   parseParam,
   oid,
   getNextSequence,
   existsIndex,
   getDb,
-  assertAutomatedTest,
   SEQUENCES_NAME
 } from '../../src'
 
@@ -51,9 +51,9 @@ test('oid: invalid value strict', async (t)=>{
 })
 
 test('getNextSequence', async (t)=>{
-  assertAutomatedTest()
   const db = await getDb()
   t.truthy(db)
+  assertAutomatedTest(db)
   try {
     const result = await db.dropCollection(SEQUENCES_NAME)
     t.truthy(result)

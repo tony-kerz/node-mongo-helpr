@@ -8,7 +8,6 @@ import {stringify, isHex} from 'helpr'
 const dbg = debug('app:mongo-helpr')
 
 export const SEQUENCES_NAME = _.get(config, 'mongo.sequences', 'sequences')
-const autoSuffix = _.get(config, 'mongo.autoSuffix', '-auto')
 
 const oidLength = 24
 const logLevel = _.get(config, 'mongo.logger.level')
@@ -30,14 +29,6 @@ export async function getDb() {
 
 export function dbName(){
   return config.get('mongo.db')
-}
-
-export function isAutomatedTest(){
-  return dbName().endsWith(autoSuffix)
-}
-
-export function assertAutomatedTest(){
-  assert(isAutomatedTest(), `db-name=${dbName()} requires suffix=${autoSuffix}`)
 }
 
 export function parseParam(value) {
