@@ -113,3 +113,8 @@ export function existsIndex(...fields){
     }
   ]
 }
+
+export function unwind(path, {preserveEmpty}={}){
+  const preserveNullAndEmptyArrays = _.isBoolean(preserveEmpty) ? preserveEmpty : true
+  return {$unwind: {path, preserveNullAndEmptyArrays}}
+}
