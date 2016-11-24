@@ -16,15 +16,24 @@ if (logLevel) {
   const filterClasses = _.get(config, 'mongo.logger.filterClasses')
   filterClasses && mongodb.Logger.filter('class', filterClasses)
 }
-
+const socketTimeoutSeconds = _.get(config, 'mongo.socket.timeoutSeconds', 10)
 const client = mongodb.MongoClient
 
 export async function getDb() {
   const host = config.get('mongo.host')
   const port = config.get('mongo.port')
   const db = config.get('mongo.db')
-  dbg('get-db: host=%o, port=%o, db=%o', host, port, db)
-  return await client.connect(`mongodb://${host}:${port}/${db}`)
+  dbg('get-db: host=%o, port=%o, db=%o, timeout=%os', host, port, db, socketTimeoutSeconds)
+  return await client.connect(
+    `mongodb://${host}:${port}/${db}`,
+    {
+      server: {
+        socketOptions: {
+          socketTimeoutMS: socketTimeoutSeconds * 1000
+        }
+      }
+    }
+  )
 }
 
 export function dbName(){
