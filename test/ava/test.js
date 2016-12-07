@@ -8,7 +8,8 @@ import {
   getNextSequence,
   existsIndex,
   getDb,
-  SEQUENCES_NAME
+  SEQUENCES_NAME,
+  ifNull
 } from '../../src'
 
 const dbg = debug('test:mongo-helpr')
@@ -80,5 +81,24 @@ test('existsIndex', async (t)=>{
       {foo: 1, bar: 1},
       {unique: true, partialFilterExpression: {foo: {$exists: true}, bar: {$exists: true}}}
     ]
+  )
+})
+
+test('ifNull', async (t)=>{
+  t.deepEqual(
+    ifNull(
+      {
+        test: '$foo',
+        is: '$bar',
+        not: '$baz'
+      }
+    ),
+    {
+      $cond: [
+        {$eq: [{$ifNull: ['$foo', null]}, null]},
+        '$bar',
+        '$baz'
+      ]
+    }
   )
 })
