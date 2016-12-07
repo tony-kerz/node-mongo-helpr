@@ -127,3 +127,14 @@ export function unwind(path, {preserveEmpty}={}){
   const preserveNullAndEmptyArrays = _.isBoolean(preserveEmpty) ? preserveEmpty : true
   return {$unwind: {path, preserveNullAndEmptyArrays}}
 }
+
+export function ifNull({test, is, not}){
+  return {
+    $cond: [
+      // https://jira.mongodb.org/browse/SERVER-26180?focusedCommentId=1394961&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-1394961
+      {$eq: [{$ifNull: [test, null]}, null]},
+      is,
+      not
+    ]
+  }
+}
