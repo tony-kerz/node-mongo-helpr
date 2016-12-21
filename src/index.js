@@ -17,16 +17,16 @@ if (logLevel) {
   filterClasses && mongodb.Logger.filter('class', filterClasses)
 }
 
-function setOption({options, config, key, option}){
+function setOption({options, config, key, option, hook=_.identity}){
   const value = _.get(config, key)
   if (value) {
-    options[option] = value
+    options[option] = hook(value)
   }
 }
 
 const options = {}
-setOption({config, options, key: 'mongo.connectTimeoutMs', option: 'connectTimeoutMS'})
-setOption({config, options, key: 'mongo.socketTimeoutMs', option: 'socketTimeoutMS'})
+setOption({config, options, key: 'mongo.connectTimeoutMs', option: 'connectTimeoutMS', hook: parseInt})
+setOption({config, options, key: 'mongo.socketTimeoutMs', option: 'socketTimeoutMS', hook: parseInt})
 
 const client = mongodb.MongoClient
 
