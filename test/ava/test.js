@@ -15,7 +15,10 @@ import {
 const dbg = debug('test:mongo-helpr')
 
 test('getDb', async (t)=>{
-  t.truthy(await getDb())
+  const db = await getDb()
+  t.truthy(db)
+  const _db = await getDb()
+  t.is(_db, db)
 })
 
 test('parseParam: null', async (t)=>{
