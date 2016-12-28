@@ -22,7 +22,7 @@
     "debug": "^2.3.2",
     "helpr": "^0.1.5",
     "lodash": "^4.16.6",
-    "mongodb": "^2.2.11"
+    "mongodb": "^2.2.16"
   },
   "devDependencies": {
     "ava": "0.17.0",
