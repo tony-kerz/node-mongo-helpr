@@ -3,8 +3,7 @@ module.exports = {
     host: 'localhost',
     port: 27017,
     db: 'test-auto',
-    connectTimeoutMs: 90000,
-    socketTimeoutMs: 90000,
-    poolSize: 5
+    connectTimeoutMs: 3000,
+    socketTimeoutMs: 3000
   }
 }

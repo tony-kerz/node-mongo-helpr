@@ -37,9 +37,8 @@ export async function getDb() {
   const port = config.get('mongo.port')
   const dbName = config.get('mongo.db')
 
-  dbg('get-db: host=%o, port=%o, db=%o, options=%o', host, port, dbName, options)
-
   if (!db) {
+    dbg('get-db: connect: host=%o, port=%o, db=%o, options=%o', host, port, dbName, options)
     db = await client.connect(`mongodb://${host}:${port}/${dbName}`, options)
   }
 
