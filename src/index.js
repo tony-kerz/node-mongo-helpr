@@ -27,17 +27,23 @@ function setOption({options, config, key, option, hook=_.identity}){
 const options = {}
 setOption({config, options, key: 'mongo.connectTimeoutMs', option: 'connectTimeoutMS', hook: parseInt})
 setOption({config, options, key: 'mongo.socketTimeoutMs', option: 'socketTimeoutMS', hook: parseInt})
+setOption({config, options, key: 'mongo.poolSize', option: 'poolSize', hook: parseInt})
 
 const client = mongodb.MongoClient
+let db // singleton, see: http://stackoverflow.com/a/14464750/2371903
 
 export async function getDb() {
   const host = config.get('mongo.host')
   const port = config.get('mongo.port')
-  const db = config.get('mongo.db')
+  const dbName = config.get('mongo.db')
 
-  dbg('get-db: host=%o, port=%o, db=%o, options=%o', host, port, db, options)
+  dbg('get-db: host=%o, port=%o, db=%o, options=%o', host, port, dbName, options)
 
-  return await client.connect(`mongodb://${host}:${port}/${db}`, options)
+  if (!db) {
+    db = await client.connect(`mongodb://${host}:${port}/${dbName}`, options)
+  }
+
+  return db
 }
 
 export function dbName(){
