@@ -1,6 +1,6 @@
 {
   "name": "mongo-helpr",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "",
   "main": "dist/index.js",
   "repository": {
@@ -22,7 +22,7 @@
     "debug": "^2.3.2",
     "helpr": "^0.1.5",
     "lodash": "^4.16.6",
-    "mongodb": "^2.2.16"
+    "mongodb": "^2.2.19"
   },
   "devDependencies": {
     "ava": "0.17.0",
