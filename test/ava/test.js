@@ -8,6 +8,7 @@ import {
   getNextSequence,
   existsIndex,
   getDb,
+  closeDb,
   SEQUENCES_NAME,
   ifNull
 } from '../../src'
@@ -19,6 +20,9 @@ test('getDb', async (t)=>{
   t.truthy(db)
   const _db = await getDb()
   t.is(_db, db)
+  closeDb()
+  const __db = await getDb()
+  t.not(__db, db)
 })
 
 test('parseParam: null', async (t)=>{
