@@ -47,9 +47,10 @@ export async function getDb() {
 
 export async function closeDb() {
   if (_db) {
-    const result = _db.close()
+    const db = _db
+    await _db.close()
     _db = null
-    dbg('close-db: result=%o', result)
+    dbg('close-db: closed db=%o', db.databaseName)
   }
 }
 

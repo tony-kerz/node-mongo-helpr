@@ -20,7 +20,7 @@ test('getDb', async (t)=>{
   t.truthy(db)
   const _db = await getDb()
   t.is(_db, db)
-  closeDb()
+  await closeDb()
   const __db = await getDb()
   t.not(__db, db)
 })
