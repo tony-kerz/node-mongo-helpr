@@ -15,14 +15,29 @@ import {
 
 const dbg = debug('test:mongo-helpr')
 
-test('getDb', async (t)=>{
-  const db = await getDb()
-  t.truthy(db)
-  const _db = await getDb()
-  t.is(_db, db)
+test('getDb: basic', async (t)=>{
+  const db1 = await getDb()
+  t.truthy(db1)
+  const db2 = await getDb()
+  t.truthy(db2)
+  t.is(db1, db2)
+})
+
+test('getDb: init', async (t)=>{
+  const db1 = await getDb()
+  t.truthy(db1)
+  const db2 = await getDb({init: true})
+  t.truthy(db2)
+  t.not(db1, db2)
+})
+
+test('closeDb', async (t)=>{
+  const db1 = await getDb()
+  t.truthy(db1)
   await closeDb()
-  const __db = await getDb()
-  t.not(__db, db)
+  const db2 = await getDb()
+  t.truthy(db2)
+  t.not(db1, db2)
 })
 
 test('parseParam: null', async (t)=>{
