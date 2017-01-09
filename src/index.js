@@ -32,10 +32,12 @@ setOption({config, options, key: 'mongo.poolSize', option: 'poolSize', hook: par
 const client = mongodb.MongoClient
 let _db // singleton, see: http://stackoverflow.com/a/14464750/2371903
 
-export async function getDb() {
+export async function getDb({init}={}) {
   const host = config.get('mongo.host')
   const port = config.get('mongo.port')
   const dbName = config.get('mongo.db')
+
+  init && await closeDb()
 
   if (!_db) {
     dbg('get-db: connect: host=%o, port=%o, db=%o, options=%o', host, port, dbName, options)
