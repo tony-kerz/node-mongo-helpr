@@ -14,9 +14,10 @@ import {
   createValidator
 } from '../../src'
 
+/* eslint-disable new-cap */
 const dbg = debug('test:mongo-helpr')
 
-test('getDb: basic', async (t)=>{
+test('getDb: basic', async t => {
   const db1 = await getDb()
   t.truthy(db1)
   const db2 = await getDb()
@@ -24,7 +25,7 @@ test('getDb: basic', async (t)=>{
   t.is(db1, db2)
 })
 
-test('getDb: init', async (t)=>{
+test('getDb: init', async t => {
   const db1 = await getDb()
   t.truthy(db1)
   const db2 = await getDb({init: true})
@@ -32,7 +33,7 @@ test('getDb: init', async (t)=>{
   t.not(db1, db2)
 })
 
-test('closeDb', async (t)=>{
+test('closeDb', async t => {
   const db1 = await getDb()
   t.truthy(db1)
   await closeDb()
@@ -41,56 +42,58 @@ test('closeDb', async (t)=>{
   t.not(db1, db2)
 })
 
-test('parseParam: null', async (t)=>{
+test('parseParam: null', async t => {
   t.is(parseParam(null), null)
 })
 
-test('parseParam: string', async (t)=>{
+test('parseParam: string', async t => {
   t.is(parseParam('foo'), 'foo')
 })
 
-test('parseParam: regex', async (t)=>{
+test('parseParam: regex', async t => {
   t.deepEqual(parseParam('/foo'), {$regex: 'foo', $options: ''})
 })
 
-test('parseParam: regex with option', async (t)=>{
+test('parseParam: regex with option', async t => {
   t.deepEqual(parseParam('/foo/i'), {$regex: 'foo', $options: 'i'})
 })
 
-test('oid', async (t)=>{
+test('oid', async t => {
   t.truthy(oid() instanceof mongodb.ObjectId)
 })
 
-test('oid: valid value', async (t)=>{
+test('oid: valid value', async t => {
   const value = '012345678901234567890123'
   t.is(oid(value).toHexString(), mongodb.ObjectId(value).toHexString())
 })
 
-test('oid: invalid value lax', async (t)=>{
+test('oid: invalid value lax', async t => {
   t.is(oid('1').toHexString(), mongodb.ObjectId('000000000000000000000001').toHexString())
 })
 
-test('oid: invalid value strict', async (t)=>{
-  t.throws(()=>{oid('1', {strict: true})})
+test('oid: invalid value strict', async t => {
+  t.throws(() => {
+    oid('1', {strict: true})
+  })
 })
 
-test('getNextSequence', async (t)=>{
+test('getNextSequence', async t => {
   const db = await getDb()
   t.truthy(db)
   assertAutomatedTest(db)
   try {
     const result = await db.dropCollection(SEQUENCES_NAME)
     t.truthy(result)
-  } catch (error) {
-    dbg('get-next-sequence: message=%o, (assuming allowable)', error.message)
-    error.code && t.is(error.code, 26) // collection doesn't exist code
+  } catch (err) {
+    dbg('get-next-sequence: message=%o, (assuming allowable)', err.message)
+    err.code && t.is(err.code, 26) // collection doesn't exist code
   }
   t.is(await getNextSequence('stuff', {db}), 1)
   t.is(await getNextSequence('stuff', {db}), 2)
   t.is(await getNextSequence('stuff', {db}), 3)
 })
 
-test('existsIndex', async (t)=>{
+test('existsIndex', async t => {
   t.deepEqual(
     existsIndex('foo'),
     [
@@ -107,7 +110,7 @@ test('existsIndex', async (t)=>{
   )
 })
 
-test('ifNull', async (t)=>{
+test('ifNull', async t => {
   t.deepEqual(
     ifNull(
       {
@@ -126,7 +129,7 @@ test('ifNull', async (t)=>{
   )
 })
 
-test('createValidator', async (t)=>{
+test('createValidator', async t => {
   const db = await getDb()
   await initDb(db)
   const collectionName = 'validated'

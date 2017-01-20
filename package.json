@@ -9,29 +9,28 @@
   },
   "scripts": {
     "ava": "cross-env DEBUG=test:*,app:* ava -s test/ava",
-    "pretest": "npm run eslint",
+    "pretest": "xo",
     "test": "npm run ava",
     "prebuild": "npm run test",
-    "build": "babel ./src -d ./dist",
-    "eslint": "eslint ./src ./test"
+    "build": "babel ./src -d ./dist"
   },
   "author": "tony kerz",
   "license": "ISC",
   "dependencies": {
     "config": "^1.24.0",
-    "debug": "^2.3.2",
-    "helpr": "^0.1.5",
-    "lodash": "^4.16.6",
-    "mongodb": "^2.2.19"
+    "debug": "^2.6.0",
+    "helpr": "^0.1.8",
+    "lodash": "^4.17.4",
+    "mongodb": "^2.2.21"
   },
   "devDependencies": {
-    "ava": "0.17.0",
-    "babel-cli": "^6.18.0",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-preset-stage-0": "^6.16.0",
-    "cross-env": "^3.1.3",
-    "eslint": "^3.10.2",
-    "mongo-test-helpr": "^0.1.6"
+    "ava": "^0.17.0",
+    "babel-cli": "^6.22.2",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-preset-env": "^1.1.8",
+    "cross-env": "^3.1.4",
+    "mongo-test-helpr": "^0.1.7",
+    "xo": "^0.17.1"
   },
   "ava": {
     "babel": "inherit",
@@ -39,5 +38,19 @@
       "babel-register",
       "babel-polyfill"
     ]
+  },
+  "xo": {
+    "space": true,
+    "semicolon": false,
+    "rules": {
+      "no-console": "error",
+      "no-unused-expressions": [
+        "error",
+        {
+          "allowShortCircuit": true,
+          "allowTernary": true
+        }
+      ]
+    }
   }
 }
