@@ -133,6 +133,14 @@ export function createIndices(indices, {db, collectionName}){
   })
 }
 
+export async function createValidator({validator, db, collectionName}){
+  assert(validator, 'validator required')
+  const _db = db || await getDb()
+  const collection = await _db.createCollection(collectionName, {w: 1})
+  assert(collection, 'collection required')
+  await _db.command({collMod: collectionName, validator})
+}
+
 export function existsIndex(...fields){
   return [
     _.transform(fields, (result, field)=>{result[field] = 1}, {}),
