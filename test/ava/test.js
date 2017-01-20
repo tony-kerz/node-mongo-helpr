@@ -1,7 +1,7 @@
 import test from 'ava'
 import debug from 'debug'
 import mongodb from 'mongodb'
-import {assertAutomatedTest} from 'mongo-test-helpr'
+import {assertAutomatedTest, initDb} from 'mongo-test-helpr'
 import {
   parseParam,
   oid,
@@ -10,7 +10,8 @@ import {
   getDb,
   closeDb,
   SEQUENCES_NAME,
-  ifNull
+  ifNull,
+  createValidator
 } from '../../src'
 
 const dbg = debug('test:mongo-helpr')
@@ -123,4 +124,21 @@ test('ifNull', async (t)=>{
       ]
     }
   )
+})
+
+test('createValidator', async (t)=>{
+  const db = await getDb()
+  await initDb(db)
+  const collectionName = 'validated'
+  await createValidator(
+    {
+      db,
+      collectionName,
+      validator: {name: {$type: 'string'}}
+    }
+  )
+  const result = await db.collection(collectionName).save({name: 'foo'})
+  t.is(result.result.n, 1)
+
+  await t.throws(db.collection(collectionName).save({name: 1}))
 })
