@@ -126,9 +126,9 @@ export async function getNextSequence(entity, {db} = {}) {
   return result.value.sequence
 }
 
-export function createIndices({indices, db, collectionName}) {
+export async function createIndices({indices, db, collectionName}) {
   assert(indices, 'indices required')
-  const _db = db || getDb()
+  const _db = db || await getDb()
   const target = _db.collection(collectionName)
   indices.forEach(index => {
     Array.isArray(index) ? target.createIndex(...index) : target.createIndex(index)

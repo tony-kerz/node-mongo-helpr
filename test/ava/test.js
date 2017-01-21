@@ -139,7 +139,8 @@ test('createIndices', async t => {
       db,
       collectionName,
       indices: [
-        [{name: 1}, {unique: true}]
+        [{name: 1}, {unique: true}],
+        {age: 1}
       ]
     }
   )
