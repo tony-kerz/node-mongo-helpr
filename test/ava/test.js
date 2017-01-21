@@ -34,6 +34,16 @@ test('getDb: init', async t => {
   t.not(db1, db2)
 })
 
+test('getDb: drop', async t => {
+  const db = await getDb()
+  t.truthy(db)
+  const result = await db.collection('foo').save({name: 'bar'})
+  t.truthy(result.result.n, 1)
+  await db.dropDatabase()
+  const array = await db.collection('foo').find({}).toArray()
+  t.is(array.length, 0)
+})
+
 test('closeDb', async t => {
   const db1 = await getDb()
   t.truthy(db1)
