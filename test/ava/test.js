@@ -11,6 +11,7 @@ import {
   closeDb,
   SEQUENCES_NAME,
   ifNull,
+  createIndices,
   createValidator
 } from '../../src'
 
@@ -127,6 +128,25 @@ test('ifNull', async t => {
       ]
     }
   )
+})
+
+test('createIndices', async t => {
+  const db = await getDb()
+  await initDb(db)
+  const collectionName = 'indexed'
+  await createIndices(
+    {
+      db,
+      collectionName,
+      indices: [
+        [{name: 1}, {unique: true}]
+      ]
+    }
+  )
+  const result = await db.collection(collectionName).save({name: 'foo'})
+  t.is(result.result.n, 1)
+
+  await t.throws(db.collection(collectionName).save({name: 'foo'}))
 })
 
 test('createValidator', async t => {

@@ -30,7 +30,7 @@ setOption({config, options, key: 'mongo.socketTimeoutMs', option: 'socketTimeout
 setOption({config, options, key: 'mongo.poolSize', option: 'poolSize', hook: parseInt})
 
 const client = mongodb.MongoClient
-let _db // singleton, see: http://stackoverflow.com/a/14464750/2371903
+let __db // singleton, see: http://stackoverflow.com/a/14464750/2371903
 
 export async function getDb({init} = {}) {
   const host = config.get('mongo.host')
@@ -39,19 +39,19 @@ export async function getDb({init} = {}) {
 
   init && await closeDb()
 
-  if (!_db) {
+  if (!__db) {
     dbg('get-db: connect: host=%o, port=%o, db=%o, options=%o', host, port, dbName, options)
-    _db = await client.connect(`mongodb://${host}:${port}/${dbName}`, options)
+    __db = await client.connect(`mongodb://${host}:${port}/${dbName}`, options)
   }
 
-  return _db
+  return __db
 }
 
 export async function closeDb() {
-  if (_db) {
-    const db = _db
-    await _db.close()
-    _db = null
+  if (__db) {
+    const db = __db
+    await __db.close()
+    __db = null
     dbg('close-db: closed db=%o', db.databaseName)
   }
 }
