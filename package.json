@@ -3,10 +3,7 @@
   "version": "0.4.3",
   "description": "",
   "main": "dist/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tony-kerz/node-mongo-helpr.git"
-  },
+  "repository": "https://github.com/tony-kerz/node-mongo-helpr.git",
   "scripts": {
     "ava": "cross-env DEBUG=test:*,app:* ava -s test/ava",
     "pretest": "xo",
