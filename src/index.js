@@ -3,7 +3,7 @@ import mongodb from 'mongodb'
 import debug from 'debug'
 import _ from 'lodash'
 import config from 'config'
-import {stringify, isHex, pretty} from 'helpr'
+import {stringify, isHex, debugElements} from 'helpr'
 
 const dbg = debug('app:mongo-helpr')
 
@@ -133,7 +133,7 @@ export async function createIndices({indices, db, collectionName}) {
   await Promise.all(indices.map(index => {
     return Array.isArray(index) ? target.createIndex(...index) : target.createIndex(index)
   }))
-  dbg('create-indices: collection=%o, indices=\n%s', collectionName, pretty(indices))
+  debugElements({dbg, msg: `create-indices: collection=${collectionName}, indices`, o: indices})
 }
 
 export async function createValidator({validator, db, collectionName}) {
@@ -142,7 +142,7 @@ export async function createValidator({validator, db, collectionName}) {
   const collection = await _db.createCollection(collectionName, {w: 1})
   assert(collection, 'collection required')
   await _db.command({collMod: collectionName, validator})
-  dbg('create-validator: collection=%o, validator=\n%s', collectionName, pretty(validator))
+  debugElements({dbg, msg: `create-validator: collection=${collectionName}, validator`, o: validator})
 }
 
 export function existsIndex(...fields) {
