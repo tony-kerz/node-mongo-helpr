@@ -212,7 +212,7 @@ test('assertNone', async t => {
   await initDb(db)
   const collectionName = 'toCount'
   const query = {name: 'foo'}
-  await assertNone({db, collectionName, query})
+  t.true(await assertNone({db, collectionName, query}))
   await db.collection(collectionName).save({...query})
   try {
     await assertNone({db, collectionName, query})
