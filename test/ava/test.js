@@ -1,7 +1,7 @@
 import test from 'ava'
 import debug from 'debug'
 import mongodb from 'mongodb'
-import {VALIDATION_ERROR} from 'helpr'
+import {UNIQUENESS_ERROR} from 'helpr'
 import {assertAutomatedTest, initDb} from 'mongo-test-helpr'
 import {
   parseParam,
@@ -218,7 +218,7 @@ test('assertNone', async t => {
     await assertNone({db, collectionName, query})
     t.fail()
   } catch (err) {
-    t.is(err.name, VALIDATION_ERROR)
+    t.is(err.name, UNIQUENESS_ERROR)
     dbg('assert-none: err=%o', err)
     t.pass()
   }

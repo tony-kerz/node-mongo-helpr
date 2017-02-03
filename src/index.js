@@ -3,7 +3,7 @@ import mongodb from 'mongodb'
 import debug from 'debug'
 import _ from 'lodash'
 import config from 'config'
-import {stringify, isHex, debugElements, VALIDATION_ERROR} from 'helpr'
+import {stringify, isHex, debugElements, UNIQUENESS_ERROR} from 'helpr'
 
 const dbg = debug('app:mongo-helpr')
 
@@ -132,7 +132,7 @@ export async function assertNone({db, query, steps = [], collectionName}) {
   const count = await getCount({db, query, steps, collectionName})
   if (count !== 0) {
     const e = new Error(`record already exists in [${collectionName}] for ${stringify(query)}`)
-    e.name = VALIDATION_ERROR
+    e.name = UNIQUENESS_ERROR
     throw e
   }
 }
