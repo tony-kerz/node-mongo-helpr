@@ -1,6 +1,7 @@
 import test from 'ava'
 import debug from 'debug'
 import mongodb from 'mongodb'
+import {VALIDATION_ERROR} from 'helpr'
 import {assertAutomatedTest, initDb} from 'mongo-test-helpr'
 import {
   parseParam,
@@ -12,7 +13,9 @@ import {
   SEQUENCES_NAME,
   ifNull,
   createIndices,
-  createValidator
+  createValidator,
+  getCount,
+  assertNone
 } from '../../src'
 
 /* eslint-disable new-cap */
@@ -175,4 +178,48 @@ test('createValidator', async t => {
   t.is(result.result.n, 1)
 
   await t.throws(db.collection(collectionName).save({name: 1}))
+})
+
+test('count: basic', async t => {
+  const db = await getDb()
+  await initDb(db)
+  const collectionName = 'toCount'
+  const query = {name: 'foo'}
+  let count = await getCount({db, collectionName, query})
+  t.is(count, 0)
+
+  await db.collection(collectionName).save(query)
+  count = await getCount({db, collectionName, query})
+  t.is(count, 1)
+})
+
+test('count: steps', async t => {
+  const db = await getDb()
+  await initDb(db)
+  const collectionName = 'toCount'
+  const query = {name: 'foo'}
+  const steps = [{$project: {name: '$nayme'}}]
+  let count = await getCount({db, collectionName, query, steps})
+  t.is(count, 0)
+
+  await db.collection(collectionName).save({nayme: 'foo'})
+  count = await getCount({db, collectionName, query, steps})
+  t.is(count, 1)
+})
+
+test('assertNone', async t => {
+  const db = await getDb()
+  await initDb(db)
+  const collectionName = 'toCount'
+  const query = {name: 'foo'}
+  await assertNone({db, collectionName, query})
+  await db.collection(collectionName).save({...query})
+  try {
+    await assertNone({db, collectionName, query})
+    t.fail()
+  } catch (err) {
+    t.is(err.name, VALIDATION_ERROR)
+    dbg('assert-none: err=%o', err)
+    t.pass()
+  }
 })

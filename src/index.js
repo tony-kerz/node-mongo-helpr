@@ -3,7 +3,7 @@ import mongodb from 'mongodb'
 import debug from 'debug'
 import _ from 'lodash'
 import config from 'config'
-import {stringify, isHex, debugElements} from 'helpr'
+import {stringify, isHex, debugElements, VALIDATION_ERROR} from 'helpr'
 
 const dbg = debug('app:mongo-helpr')
 
@@ -109,6 +109,32 @@ export async function findOne({db, query, steps, collectionName, isRequired}) {
 
 export function requireOne(opts) {
   return findOne({...opts, isRequired: true})
+}
+
+export async function getCount({db, query, steps = [], collectionName}) {
+  const _db = db || await getDb()
+  const collection = _db.collection(collectionName)
+  const cursor = collection.aggregate(
+    steps.concat(
+      [
+        {$match: query},
+        {$group: {_id: null, count: {$sum: 1}}}
+      ]
+    ),
+    {allowDiskUse: true}
+  )
+  const result = await cursor.toArray()
+  dbg('count: result=%o', result)
+  return (result.length === 1) ? result[0].count : 0
+}
+
+export async function assertNone({db, query, steps = [], collectionName}) {
+  const count = await getCount({db, query, steps, collectionName})
+  if (count !== 0) {
+    const e = new Error(`record already exists in [${collectionName}] for ${stringify(query)}`)
+    e.name = VALIDATION_ERROR
+    throw e
+  }
 }
 
 export async function getNextSequence(entity, {db} = {}) {

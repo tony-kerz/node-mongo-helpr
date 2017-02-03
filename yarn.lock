@@ -1984,9 +1984,9 @@ helpr@^0.1.1:
     jsondiffpatch "^0.2.4"
     lodash "^4.16.6"
 
-helpr@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/helpr/-/helpr-0.4.0.tgz#2ac5e89aa1be8dda55a358f480fe903740a3b807"
+helpr@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/helpr/-/helpr-0.6.2.tgz#b0e6c19457664c6062404f8c4688dcb95c699184"
   dependencies:
     debug "^2.6.0"
     fast-safe-stringify "^1.1.3"
