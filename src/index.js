@@ -135,6 +135,7 @@ export async function assertNone({db, query, steps = [], collectionName}) {
     e.name = UNIQUENESS_ERROR
     throw e
   }
+  return true
 }
 
 export async function getNextSequence(entity, {db} = {}) {
