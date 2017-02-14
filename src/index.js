@@ -107,8 +107,8 @@ export async function findOne({db, query, steps, collectionName, isRequired}) {
   return (result.length === 1) ? result[0] : null
 }
 
-export function requireOne(opts) {
-  return findOne({...opts, isRequired: true})
+export async function requireOne(opts) {
+  return await findOne({...opts, isRequired: true})
 }
 
 export async function getCount({db, query, steps = [], collectionName}) {

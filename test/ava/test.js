@@ -1,8 +1,7 @@
 import test from 'ava'
 import debug from 'debug'
 import mongodb from 'mongodb'
-import {UNIQUENESS_ERROR} from 'helpr'
-import {assertAutomatedTest, initDb} from 'mongo-test-helpr'
+import {assertAutomatedTest} from 'mongo-test-helpr'
 import {
   parseParam,
   oid,
@@ -11,11 +10,7 @@ import {
   getDb,
   closeDb,
   SEQUENCES_NAME,
-  ifNull,
-  createIndices,
-  createValidator,
-  getCount,
-  assertNone
+  ifNull
 } from '../../src'
 
 /* eslint-disable new-cap */
@@ -141,85 +136,4 @@ test('ifNull', async t => {
       ]
     }
   )
-})
-
-test('createIndices', async t => {
-  const db = await getDb()
-  await initDb(db)
-  const collectionName = 'indexed'
-  await createIndices(
-    {
-      db,
-      collectionName,
-      indices: [
-        [{name: 1}, {unique: true}],
-        {age: 1}
-      ]
-    }
-  )
-  const result = await db.collection(collectionName).save({name: 'foo'})
-  t.is(result.result.n, 1)
-
-  await t.throws(db.collection(collectionName).save({name: 'foo'}))
-})
-
-test('createValidator', async t => {
-  const db = await getDb()
-  await initDb(db)
-  const collectionName = 'validated'
-  await createValidator(
-    {
-      db,
-      collectionName,
-      validator: {name: {$type: 'string'}}
-    }
-  )
-  const result = await db.collection(collectionName).save({name: 'foo'})
-  t.is(result.result.n, 1)
-
-  await t.throws(db.collection(collectionName).save({name: 1}))
-})
-
-test('count: basic', async t => {
-  const db = await getDb()
-  await initDb(db)
-  const collectionName = 'toCount'
-  const query = {name: 'foo'}
-  let count = await getCount({db, collectionName, query})
-  t.is(count, 0)
-
-  await db.collection(collectionName).save(query)
-  count = await getCount({db, collectionName, query})
-  t.is(count, 1)
-})
-
-test('count: steps', async t => {
-  const db = await getDb()
-  await initDb(db)
-  const collectionName = 'toCount'
-  const query = {name: 'foo'}
-  const steps = [{$project: {name: '$nayme'}}]
-  let count = await getCount({db, collectionName, query, steps})
-  t.is(count, 0)
-
-  await db.collection(collectionName).save({nayme: 'foo'})
-  count = await getCount({db, collectionName, query, steps})
-  t.is(count, 1)
-})
-
-test('assertNone', async t => {
-  const db = await getDb()
-  await initDb(db)
-  const collectionName = 'toCount'
-  const query = {name: 'foo'}
-  t.true(await assertNone({db, collectionName, query}))
-  await db.collection(collectionName).save({...query})
-  try {
-    await assertNone({db, collectionName, query})
-    t.fail()
-  } catch (err) {
-    t.is(err.name, UNIQUENESS_ERROR)
-    dbg('assert-none: err=%o', err)
-    t.pass()
-  }
 })
