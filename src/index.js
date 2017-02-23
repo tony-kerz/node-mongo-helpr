@@ -201,3 +201,18 @@ export function ifNull({test, is, not}) {
     ]
   }
 }
+
+export function getAnd(query) {
+  if (!query.$and) {
+    query.$and = []
+  }
+  return query.$and
+}
+
+export function pushOrs({query, ors}) {
+  if (query.$or) {
+    getAnd(query).push({$or: ors})
+  } else {
+    query.$or = ors
+  }
+}
