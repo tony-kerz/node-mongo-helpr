@@ -1,11 +1,11 @@
 {
   "name": "mongo-helpr",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "",
   "main": "dist/index.js",
   "repository": "https://github.com/tony-kerz/node-mongo-helpr.git",
   "scripts": {
-    "ava": "cross-env DEBUG=test:*,app:* ava -s test/ava",
+    "ava": "cross-env DEBUG=test:*,app:* ava -s",
     "pretest": "xo",
     "test": "npm run ava",
     "prebuild": "npm run test",
