@@ -1,19 +1,19 @@
 import test from 'ava'
 
 import {
-  getAnd,
+  ensureAnd,
   pushOrs
 } from '../../src'
 
 test('getAnd', t => {
-  t.deepEqual(getAnd({}), [])
-  t.deepEqual(getAnd({$and: ['foo']}), ['foo'])
+  t.deepEqual(ensureAnd({}).$and, [])
+  t.deepEqual(ensureAnd({$and: ['foo']}).$and, ['foo'])
 })
 
 test('pushOrs', t => {
-  const query = {}
+  let query = {}
 
-  pushOrs({query, ors: [{foo: 'bar'}]})
+  query = pushOrs({query, ors: [{foo: 'bar'}]})
   t.deepEqual(
     query,
     {
@@ -23,7 +23,7 @@ test('pushOrs', t => {
     }
   )
 
-  pushOrs({query, ors: [{baz: 'bip'}]})
+  query = pushOrs({query, ors: [{baz: 'bip'}]})
   t.deepEqual(
     query,
     {
@@ -40,7 +40,7 @@ test('pushOrs', t => {
     }
   )
 
-  pushOrs({query, ors: [{fee: 'fie'}]})
+  query = pushOrs({query, ors: [{fee: 'fie'}]})
   t.deepEqual(
     query,
     {
