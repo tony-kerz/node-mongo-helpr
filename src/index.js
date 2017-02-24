@@ -202,7 +202,7 @@ export function ifNull({test, is, not}) {
   }
 }
 
-export function insureAnd(query) {
+export function ensureAnd(query) {
   if (!query.$and) {
     return {...query, $and: []}
   }
@@ -211,7 +211,7 @@ export function insureAnd(query) {
 
 export function pushOrs({query, ors}) {
   if (query.$or) {
-    const _query = insureAnd(query)
+    const _query = ensureAnd(query)
     _query.$and.push({$or: ors})
     return _query
   }

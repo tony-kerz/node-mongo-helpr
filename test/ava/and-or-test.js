@@ -1,13 +1,13 @@
 import test from 'ava'
 
 import {
-  insureAnd,
+  ensureAnd,
   pushOrs
 } from '../../src'
 
 test('getAnd', t => {
-  t.deepEqual(insureAnd({}).$and, [])
-  t.deepEqual(insureAnd({$and: ['foo']}).$and, ['foo'])
+  t.deepEqual(ensureAnd({}).$and, [])
+  t.deepEqual(ensureAnd({$and: ['foo']}).$and, ['foo'])
 })
 
 test('pushOrs', t => {
