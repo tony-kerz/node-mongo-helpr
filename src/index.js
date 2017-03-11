@@ -3,7 +3,7 @@ import mongodb from 'mongodb'
 import debug from 'debug'
 import _ from 'lodash'
 import config from 'config'
-import {stringify, isHex, debugElements, UNIQUENESS_ERROR} from 'helpr'
+import {stringify, isHex, debugElements, UNIQUENESS_ERROR, join} from 'helpr'
 
 const dbg = debug('app:mongo-helpr')
 
@@ -216,4 +216,20 @@ export function pushOrs({query, ors}) {
     return _query
   }
   return {...query, $or: ors}
+}
+
+export function toDotNotation({target, path = [], result = {}}) {
+  dbg('to-dot-notation: target=%o, path=%o, result=%o', target, path, result)
+  return _.reduce(
+    target,
+    (result, val, key) => {
+      dbg('to-dot-notation: result=%o, key=%o, val=%o', result, key, val)
+      if (_.isPlainObject(val)) {
+        return toDotNotation({target: val, path: path.concat([key]), result})
+      }
+      result[join(path.concat([key]))] = val
+      return result
+    },
+    result
+  )
 }
