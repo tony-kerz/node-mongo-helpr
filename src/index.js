@@ -219,11 +219,9 @@ export function pushOrs({query, ors}) {
 }
 
 export function toDotNotation({target, path = [], result = {}}) {
-  dbg('to-dot-notation: target=%o, path=%o, result=%o', target, path, result)
   return _.reduce(
     target,
     (result, val, key) => {
-      dbg('to-dot-notation: result=%o, key=%o, val=%o', result, key, val)
       if (_.isPlainObject(val)) {
         return toDotNotation({target: val, path: path.concat([key]), result})
       }
