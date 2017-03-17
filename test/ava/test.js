@@ -1,7 +1,7 @@
 import test from 'ava'
 import debug from 'debug'
 import mongodb from 'mongodb'
-import {assertAutomatedTest} from 'mongo-test-helpr'
+import {assertAutomatedTest, initDb} from 'mongo-test-helpr'
 import {
   parseParam,
   oid,
@@ -10,7 +10,8 @@ import {
   getDb,
   closeDb,
   SEQUENCES_NAME,
-  ifNull
+  ifNull,
+  createIndices
 } from '../../src'
 
 /* eslint-disable new-cap */
@@ -136,4 +137,94 @@ test('ifNull', async t => {
       ]
     }
   )
+})
+
+test('createIndices: non-existent', async t => {
+  const db = await getDb()
+  t.truthy(db)
+  let result = await initDb(db)
+  t.truthy(result)
+  result = await createIndices(
+    {
+      indices: [
+        [
+          {foo: 1},
+          {unique: true}
+        ]
+      ],
+      collectionName: 'indexed'
+    }
+  )
+  t.truthy(result)
+})
+
+test('createIndices: non-existent: drop', async t => {
+  const db = await getDb()
+  t.truthy(db)
+  let result = await initDb(db)
+  t.truthy(result)
+  result = await createIndices(
+    {
+      indices: [
+        [
+          {foo: 1},
+          {unique: true}
+        ]
+      ],
+      collectionName: 'indexed',
+      isDrop: true
+    }
+  )
+  t.truthy(result)
+})
+
+test('createIndices: exists', async t => {
+  const db = await getDb()
+  t.truthy(db)
+  let result = await initDb(db)
+  t.truthy(result)
+
+  const collectionName = 'indexed'
+
+  result = await db.createCollection(collectionName)
+  t.truthy(result)
+
+  result = await createIndices(
+    {
+      indices: [
+        [
+          {foo: 1},
+          {unique: true}
+        ]
+      ],
+      collectionName
+    }
+  )
+  t.truthy(result)
+})
+
+test('createIndices: exists: drop', async t => {
+  const db = await getDb()
+  t.truthy(db)
+  let result = await initDb(db)
+  t.truthy(result)
+
+  const collectionName = 'indexed'
+
+  result = await db.createCollection(collectionName)
+  t.truthy(result)
+
+  result = await createIndices(
+    {
+      indices: [
+        [
+          {foo: 1},
+          {unique: true}
+        ]
+      ],
+      collectionName,
+      isDrop: true
+    }
+  )
+  t.truthy(result)
 })

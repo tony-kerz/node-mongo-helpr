@@ -153,14 +153,29 @@ export async function getNextSequence(entity, {db} = {}) {
   return result.value.sequence
 }
 
-export async function createIndices({indices, db, collectionName}) {
+export async function createIndices({indices, db, collectionName, isDrop}) {
   assert(indices, 'indices required')
   const _db = db || await getDb()
   const target = _db.collection(collectionName)
+  if (isDrop) {
+    try {
+      const result = await target.dropIndexes()
+      assert(result.ok, 'ok result required')
+      dbg('dropped indices for collection=%o', collectionName)
+    } catch (err) {
+      if (err.code === 26) {
+        // collection doesn't exist code
+        dbg('attempted to drop indices for non-existent collection=%o, continuing...', collectionName)
+      } else {
+        throw err
+      }
+    }
+  }
   await Promise.all(indices.map(index => {
     return Array.isArray(index) ? target.createIndex(...index) : target.createIndex(index)
   }))
   debugElements({dbg, msg: `create-indices: collection=${collectionName}, indices`, o: indices})
+  return true
 }
 
 export async function createValidator({validator, db, collectionName}) {
