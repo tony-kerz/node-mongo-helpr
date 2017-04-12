@@ -246,3 +246,15 @@ export function toDotNotation({target, path = [], result = {}}) {
     result
   )
 }
+
+export function sanitizeKeys(data) {
+  return _.isPlainObject(data) ?
+    _.transform(
+      data,
+      (result, val, key) => {
+        const _key = key.startsWith('$') ? key.replace('$', '_$') : key
+        result[_key.replace(/\./g, '_')] = sanitizeKeys(val)
+      }
+    ) :
+    data
+}
