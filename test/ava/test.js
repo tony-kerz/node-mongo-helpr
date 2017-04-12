@@ -11,7 +11,8 @@ import {
   closeDb,
   SEQUENCES_NAME,
   ifNull,
-  createIndices
+  createIndices,
+  sanitizeKeys
 } from '../../src'
 
 /* eslint-disable new-cap */
@@ -227,4 +228,26 @@ test('createIndices: exists: drop', async t => {
     }
   )
   t.truthy(result)
+})
+
+test('sanitizeKeys', async t => {
+  t.deepEqual(
+    sanitizeKeys(
+      {
+        $foo: {
+          $bar: {
+            'do.not.reply': true
+          }
+        }
+      }
+    ),
+    {
+      _$foo: {
+        _$bar: {
+          // eslint-disable-next-line camelcase
+          do_not_reply: true
+        }
+      }
+    }
+  )
 })
