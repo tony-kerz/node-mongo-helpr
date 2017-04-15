@@ -24,34 +24,37 @@ function setOption({options, config, key, option, hook = _.identity}) {
   }
 }
 
-const options = {}
+export const options = {}
 setOption({config, options, key: 'mongo.connectTimeoutMs', option: 'connectTimeoutMS', hook: parseInt})
 setOption({config, options, key: 'mongo.socketTimeoutMs', option: 'socketTimeoutMS', hook: parseInt})
 setOption({config, options, key: 'mongo.poolSize', option: 'poolSize', hook: parseInt})
+setOption({config, options, key: 'mongo.replicaSet', option: 'replicaSet'})
 
 const client = mongodb.MongoClient
-let __db // singleton, see: http://stackoverflow.com/a/14464750/2371903
+var _mongoHelpr = {} // singleton, see: http://stackoverflow.com/a/14464750/2371903
+
+export function getConnectionString() {
+  const host = config.get('mongo.host')
+  const dbName = config.get('mongo.db')
+  dbg('get-connection-string: connect: host=%o, db=%o, options=%o', host, dbName, options)
+  return `mongodb://${host}/${dbName}`
+}
 
 export async function getDb({init} = {}) {
-  const host = config.get('mongo.host')
-  const port = config.get('mongo.port')
-  const dbName = config.get('mongo.db')
-
   init && await closeDb()
 
-  if (!__db) {
-    dbg('get-db: connect: host=%o, port=%o, db=%o, options=%o', host, port, dbName, options)
-    __db = await client.connect(`mongodb://${host}:${port}/${dbName}`, options)
+  if (!_mongoHelpr.db) {
+    _mongoHelpr.db = await client.connect(getConnectionString(), options)
   }
 
-  return __db
+  return _mongoHelpr.db
 }
 
 export async function closeDb() {
-  if (__db) {
-    const db = __db
-    await __db.close()
-    __db = null
+  if (_mongoHelpr.db) {
+    const db = _mongoHelpr.db
+    await _mongoHelpr.db.close()
+    _mongoHelpr.db = null
     dbg('close-db: closed db=%o', db.databaseName)
   }
 }
