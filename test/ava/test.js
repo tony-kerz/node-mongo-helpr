@@ -12,7 +12,9 @@ import {
   SEQUENCES_NAME,
   ifNull,
   createIndices,
-  sanitizeKeys
+  sanitizeKeys,
+  getConnectionString,
+  options
 } from '../../src'
 
 /* eslint-disable new-cap */
@@ -248,6 +250,20 @@ test('sanitizeKeys', async t => {
           do_not_reply: true
         }
       }
+    }
+  )
+})
+
+test('getConnectionString', t => {
+  t.is(getConnectionString(), 'mongodb://localhost:27017/test-auto')
+})
+
+test('options', t => {
+  t.deepEqual(
+    options,
+    {
+      connectTimeoutMS: 3000,
+      socketTimeoutMS: 3000
     }
   )
 })
