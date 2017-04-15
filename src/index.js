@@ -31,7 +31,7 @@ setOption({config, options, key: 'mongo.poolSize', option: 'poolSize', hook: par
 setOption({config, options, key: 'mongo.replicaSet', option: 'replicaSet'})
 
 const client = mongodb.MongoClient
-var __db // singleton, see: http://stackoverflow.com/a/14464750/2371903
+var _mongoHelpr = {} // singleton, see: http://stackoverflow.com/a/14464750/2371903
 
 export function getConnectionString() {
   const host = config.get('mongo.host')
@@ -43,18 +43,18 @@ export function getConnectionString() {
 export async function getDb({init} = {}) {
   init && await closeDb()
 
-  if (!__db) {
-    __db = await client.connect(getConnectionString(), options)
+  if (!_mongoHelpr.db) {
+    _mongoHelpr.db = await client.connect(getConnectionString(), options)
   }
 
-  return __db
+  return _mongoHelpr.db
 }
 
 export async function closeDb() {
-  if (__db) {
-    const db = __db
-    await __db.close()
-    __db = null
+  if (_mongoHelpr.db) {
+    const db = _mongoHelpr.db
+    await _mongoHelpr.db.close()
+    _mongoHelpr.db = null
     dbg('close-db: closed db=%o', db.databaseName)
   }
 }
