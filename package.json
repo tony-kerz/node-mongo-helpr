@@ -1,6 +1,6 @@
 {
   "name": "@watchmen/mongo-helpr",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "",
   "main": "dist/index.js",
   "repository": "the-watchmen/node-mongo-helpr",
@@ -40,7 +40,10 @@
   },
   "ava": {
     "babel": "inherit",
-    "require": ["babel-register", "babel-polyfill"]
+    "require": [
+      "babel-register",
+      "babel-polyfill"
+    ]
   },
   "publishConfig": {
     "access": "public"
