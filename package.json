@@ -1,6 +1,6 @@
 {
   "name": "@watchmen/mongo-helpr",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "",
   "main": "dist/index.js",
   "repository": "the-watchmen/node-mongo-helpr",
