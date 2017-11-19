@@ -1,9 +1,9 @@
 {
-  "name": "mongo-helpr",
+  "name": "@watchmen/mongo-helpr",
   "version": "0.9.2",
   "description": "",
   "main": "dist/index.js",
-  "repository": "https://github.com/tony-kerz/node-mongo-helpr.git",
+  "repository": "the-watchmen/node-mongo-helpr",
   "scripts": {
     "ava": "cross-env DEBUG=test:*,app:* ava -s",
     "pretest": "xo",
@@ -14,40 +14,35 @@
   "author": "tony kerz",
   "license": "ISC",
   "dependencies": {
+    "@watchmen/helpr": "^1.0.3",
     "config": "^1.24.0",
     "debug": "^2.6.0",
-    "helpr": "^0.6.4",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.21"
   },
   "devDependencies": {
-    "ava": "^0.17.0",
-    "babel-cli": "^6.22.2",
-    "babel-plugin-transform-object-rest-spread": "^6.22.0",
-    "babel-preset-env": "^1.1.8",
-    "cross-env": "^3.1.4",
-    "mongo-test-helpr": "^0.1.7",
-    "xo": "^0.17.1"
+    "ava": "^0.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^8.0.2",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "cross-env": "^5.1.1",
+    "eslint": "^4.11.0",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "prettier": "^1.7.4",
+    "xo": "^0.18.2"
+  },
+  "xo": {
+    "useEslintrc": true
   },
   "ava": {
     "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+    "require": ["babel-register", "babel-polyfill"]
   },
-  "xo": {
-    "space": true,
-    "semicolon": false,
-    "rules": {
-      "no-console": "error",
-      "no-unused-expressions": [
-        "error",
-        {
-          "allowShortCircuit": true,
-          "allowTernary": true
-        }
-      ]
-    }
+  "publishConfig": {
+    "access": "public"
   }
 }

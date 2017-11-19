@@ -1,6 +1,6 @@
 import test from 'ava'
 import debug from 'debug'
-import {UNIQUENESS_ERROR} from 'helpr'
+import {UNIQUENESS_ERROR} from '@watchmen/helpr'
 import {initDb} from 'mongo-test-helpr'
 
 import {
@@ -31,15 +31,10 @@ test('getNextSequence', async t => {
 
 test('createIndices', async t => {
   const collectionName = 'indexed'
-  await createIndices(
-    {
-      collectionName,
-      indices: [
-        [{name: 1}, {unique: true}],
-        {age: 1}
-      ]
-    }
-  )
+  await createIndices({
+    collectionName,
+    indices: [[{name: 1}, {unique: true}], {age: 1}]
+  })
 
   const db = await getDb()
   const result = await db.collection(collectionName).save({name: 'foo'})
@@ -50,12 +45,10 @@ test('createIndices', async t => {
 
 test('createValidator', async t => {
   const collectionName = 'validated'
-  await createValidator(
-    {
-      collectionName,
-      validator: {name: {$type: 'string'}}
-    }
-  )
+  await createValidator({
+    collectionName,
+    validator: {name: {$type: 'string'}}
+  })
 
   const db = await getDb()
   const result = await db.collection(collectionName).save({name: 'foo'})
